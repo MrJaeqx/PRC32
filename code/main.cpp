@@ -22,7 +22,7 @@ int main()
     std::cout << "Loading file..." << std::endl;
     f.loadFile("data/gibberish.bin", head);
 
-    // sort all data
+    // sorteer keys
     std::cout << "Sorting keys..." << std::endl;
     while(!ready)
     {
@@ -50,16 +50,18 @@ int main()
                 keyCurrent->setValue(keyTempValue);
             }
 
+            // ga naar de volgende key
             keyCurrent = keyNext;
             keyNext = keyNext->getNext();
         }
     }
 
-    std::cout << "Sorting values..." << std::endl;
+    // ga weer naar de eerste key
     keyCurrent = &head;
     keyNext = keyCurrent->getNext();
 
-    //sort values
+    // sorteer values
+    std::cout << "Sorting values..." << std::endl;
     while(keyCurrent != NULL)
     {
         ready = false;
@@ -67,11 +69,15 @@ int main()
         while(!ready)
         {
             ready = true;
+
+            // values voor het sorteren
             valueCurrent = keyCurrent->getValue();
             valueNext = valueCurrent->getNext();
 
+            // sorteer zolang er values zijn
             while(valueNext != NULL)
             {
+            	// value verplaatsen
                 if(valueCurrent->getValue() > valueNext->getValue())
                 {
                     ready = false;
@@ -81,11 +87,13 @@ int main()
                     valueCurrent->setValue(temp);
                 }
 
+                // ga naar volgende value
                 valueCurrent = valueNext;
                 valueNext = valueNext->getNext();
             }
         }
 
+        // ga naar volgende key zolang ze er zijn
         keyCurrent = keyNext;
         if(keyNext != NULL)
         {
@@ -93,7 +101,7 @@ int main()
         }  
     }
 
-    head.print();
+    //head.print();
 
     // save sorted data into a new file called sorted.bin
     std::cout << "Saving file..." << std::endl;
